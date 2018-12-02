@@ -41,8 +41,8 @@ public class UsuarioDto {
 		this.nome = nome;
 	}
 
-	@NotEmpty(message="Campo não pode ser vazio")
-	@Email(message="Email Inválido")
+	@NotEmpty(message = "Campo não pode ser vazio")
+	@Email(message = "Email Inválido")
 	public String getEmail() {
 		return email;
 	}
@@ -51,8 +51,8 @@ public class UsuarioDto {
 		this.email = email;
 	}
 
-	@NotEmpty(message="Campo Senha deve ser preenchido")
-	@Length(min=5, max=10, message="Senha deve conter entre 5 e 10 carácteres")
+	@NotEmpty(message = "Campo Senha deve ser preenchido")
+	@Length(min = 5, max = 10, message = "Senha deve conter entre 5 e 10 carácteres")
 	public String getSenha() {
 		return senha;
 	}
@@ -61,8 +61,8 @@ public class UsuarioDto {
 		this.senha = senha;
 	}
 
-	@NotEmpty(message="Campo CPF deve ser preenchido")
-	@CPF(message="CPF Inválido")
+	@NotEmpty(message = "Campo CPF deve ser preenchido")
+	@CPF(message = "CPF Inválido")
 	public String getCpf() {
 		return cpf;
 	}
