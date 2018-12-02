@@ -1,6 +1,7 @@
 package com.nonatosantos.planning.api.controllers;
 
 import java.security.NoSuchAlgorithmException;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -8,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +49,21 @@ public class UsuarioController {
 		this.usuarioService.salvar(usuario);
 
 		response.setData(this.converterCadastroPFDto(usuario));
+		return ResponseEntity.ok(response);
+
+	}
+
+	@GetMapping(value = "/usuarios/{id}")
+	public ResponseEntity<Response<UsuarioDto>> buscaPorCnpj(@PathVariable("id") Long id) {
+
+		Response<UsuarioDto> response = new Response<UsuarioDto>();
+		Optional<Usuario> usuario = this.usuarioService.buscarPorId(id);
+		if (!usuario.isPresent()) {
+
+			response.getErrors().add("Usuario não encontrado para o ID " + id);
+			return ResponseEntity.badRequest().body(response);
+		}
+
 		return ResponseEntity.ok(response);
 
 	}
