@@ -1,5 +1,7 @@
 package com.nonatosantos.planning.api.dtos;
 
+import java.util.Optional;
+
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
@@ -10,7 +12,7 @@ import com.nonatosantos.planning.api.model.enums.PerfilUsuarioEnum;
 
 public class UsuarioDto {
 
-	private Long id;
+	private Optional<Long> id;
 	private String nome;
 	private String email;
 	private String senha;
@@ -23,11 +25,11 @@ public class UsuarioDto {
 
 	}
 
-	public Long getId() {
+	public Optional<Long> getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Optional<Long> id) {
 		this.id = id;
 	}
 

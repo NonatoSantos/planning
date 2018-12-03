@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -22,8 +24,10 @@ import com.nonatosantos.planning.api.response.Response;
 import com.nonatosantos.planning.api.services.UsuarioService;
 
 @RestController
-@RequestMapping()
+@RequestMapping("/api/usuarios")
 public class UsuarioController {
+	
+	private static Logger log = LoggerFactory.getLogger(UsuarioController.class);
 
 	@Autowired
 	private UsuarioService usuarioService;
@@ -32,7 +36,7 @@ public class UsuarioController {
 
 	}
 
-	@PostMapping("api/usuario")
+	@PostMapping()
 	public ResponseEntity<Response<UsuarioDto>> cadastrarUsuario(@Valid @RequestBody UsuarioDto usuarioDto,
 			BindingResult result) throws NoSuchAlgorithmException {
 		Response<UsuarioDto> response = new Response<UsuarioDto>();
@@ -48,22 +52,23 @@ public class UsuarioController {
 
 		this.usuarioService.salvar(usuario);
 
-		response.setData(this.converterCadastroPFDto(usuario));
+		response.setData(this.converterUsuarioDto(usuario));
 		return ResponseEntity.ok(response);
 
 	}
 
-	@GetMapping(value = "/usuario/{id}")
+	@GetMapping(value = "/{id}")
 	public ResponseEntity<Response<UsuarioDto>> buscaPorId(@PathVariable("id") Long id) {
 
 		Response<UsuarioDto> response = new Response<UsuarioDto>();
 		Optional<Usuario> usuario = this.usuarioService.buscarPorId(id);
 		if (!usuario.isPresent()) {
-
+			log.info("Usuario não encontrado para o ID: {}", id);
 			response.getErrors().add("Usuario não encontrado para o ID " + id);
 			return ResponseEntity.badRequest().body(response);
 		}
-
+		
+		response.setData(this.converterUsuarioDto(usuario.get()));
 		return ResponseEntity.ok(response);
 
 	}
@@ -104,9 +109,9 @@ public class UsuarioController {
 		return usuario;
 	}
 
-	private UsuarioDto converterCadastroPFDto(Usuario usuario) {
+	private UsuarioDto converterUsuarioDto(Usuario usuario) {
 		UsuarioDto usuarioDto = new UsuarioDto();
-		usuarioDto.setId(usuario.getId());
+		usuarioDto.setId(Optional.of(usuario.getId()));
 		usuarioDto.setNome(usuario.getNome());
 		usuarioDto.setEmail(usuario.getEmail());
 		usuarioDto.setSenha(usuario.getSenha());
