@@ -33,7 +33,7 @@ public class UsuarioController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Response<UsuarioDto>> cadastrar(@Valid @RequestBody UsuarioDto usuarioDto,
+	public ResponseEntity<Response<UsuarioDto>> cadastrarUsuario(@Valid @RequestBody UsuarioDto usuarioDto,
 			BindingResult result) throws NoSuchAlgorithmException {
 		Response<UsuarioDto> response = new Response<UsuarioDto>();
 
@@ -53,14 +53,29 @@ public class UsuarioController {
 
 	}
 
-	@GetMapping(value = "/usuarios/{id}")
-	public ResponseEntity<Response<UsuarioDto>> buscaPorCnpj(@PathVariable("id") Long id) {
+	@GetMapping(value = "/usuario/{id}")
+	public ResponseEntity<Response<UsuarioDto>> buscaPorId(@PathVariable("id") Long id) {
 
 		Response<UsuarioDto> response = new Response<UsuarioDto>();
 		Optional<Usuario> usuario = this.usuarioService.buscarPorId(id);
 		if (!usuario.isPresent()) {
 
 			response.getErrors().add("Usuario não encontrado para o ID " + id);
+			return ResponseEntity.badRequest().body(response);
+		}
+
+		return ResponseEntity.ok(response);
+
+	}
+	
+	@GetMapping(value = "/usuario/{email}")
+	public ResponseEntity<Response<UsuarioDto>> buscaPorNome(@PathVariable("id") String email) {
+
+		Response<UsuarioDto> response = new Response<UsuarioDto>();
+		Optional<Usuario> usuario = this.usuarioService.buscarPorEmail(email);
+		if (!usuario.isPresent()) {
+
+			response.getErrors().add("Usuario não encontrado para o Email " + email);
 			return ResponseEntity.badRequest().body(response);
 		}
 
