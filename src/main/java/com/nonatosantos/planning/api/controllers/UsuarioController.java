@@ -22,7 +22,7 @@ import com.nonatosantos.planning.api.response.Response;
 import com.nonatosantos.planning.api.services.UsuarioService;
 
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping()
 public class UsuarioController {
 
 	@Autowired
@@ -32,7 +32,7 @@ public class UsuarioController {
 
 	}
 
-	@PostMapping
+	@PostMapping("api/usuario")
 	public ResponseEntity<Response<UsuarioDto>> cadastrarUsuario(@Valid @RequestBody UsuarioDto usuarioDto,
 			BindingResult result) throws NoSuchAlgorithmException {
 		Response<UsuarioDto> response = new Response<UsuarioDto>();

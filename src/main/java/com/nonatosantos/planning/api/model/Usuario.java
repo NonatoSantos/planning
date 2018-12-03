@@ -48,7 +48,7 @@ public class Usuario implements Serializable {
 		this.nome = nome;
 	}
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	public String getEmail() {
 		return email;
 	}
@@ -84,7 +84,7 @@ public class Usuario implements Serializable {
 		this.perfil = perfil;
 	}
 
-	@Column(nullable = false)
+	@Column(nullable = false, unique = true)
 	public String getCpf() {
 		return cpf;
 	}
