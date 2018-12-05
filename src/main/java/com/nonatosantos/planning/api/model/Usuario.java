@@ -9,6 +9,10 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
+
+import org.hibernate.validator.constraints.Length;
+import org.hibernate.validator.constraints.br.CPF;
 
 import com.nonatosantos.planning.api.model.enums.PerfilUsuarioEnum;
 
@@ -49,6 +53,7 @@ public class Usuario implements Serializable {
 	}
 
 	@Column(nullable = false, unique = true)
+	@Email(message = "Email inválido")
 	public String getEmail() {
 		return email;
 	}
@@ -58,6 +63,7 @@ public class Usuario implements Serializable {
 	}
 
 	@Column(nullable = false)
+	@Length(min = 5, max = 10, message = "Senha deve conter entre 5 e 10 carácteres")
 	public String getSenha() {
 		return senha;
 	}
@@ -85,6 +91,7 @@ public class Usuario implements Serializable {
 	}
 
 	@Column(nullable = false, unique = true)
+	@CPF(message = "CPF Inválido")
 	public String getCpf() {
 		return cpf;
 	}

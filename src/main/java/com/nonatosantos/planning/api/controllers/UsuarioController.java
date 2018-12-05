@@ -32,7 +32,7 @@ public class UsuarioController {
 	}
 
 	@PostMapping("/users")
-	public ResponseEntity<Object> createStudent(@RequestBody Usuario usuario) {
+	public ResponseEntity<Object> createUser(@RequestBody Usuario usuario) {
 		Usuario savedUser = usuarioRepository.save(usuario);
 
 		URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(savedUser.getId())
@@ -43,7 +43,7 @@ public class UsuarioController {
 	}
 
 	@GetMapping("/users/{id}")
-	public Usuario retrieveStudent(@PathVariable Long id) {
+	public Usuario retrieveUser(@PathVariable Long id) {
 		Optional<Usuario> usuario = usuarioRepository.findById(id);
 
 		if (!usuario.isPresent())
