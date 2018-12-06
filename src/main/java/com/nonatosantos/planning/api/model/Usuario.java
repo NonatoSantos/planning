@@ -1,6 +1,7 @@
 package com.nonatosantos.planning.api.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,27 +15,46 @@ import javax.validation.constraints.Email;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.nonatosantos.planning.api.model.enums.PerfilUsuarioEnum;
 
 @Entity
 public class Usuario implements Serializable {
-	private static final long serialVersionUID = 7095337807485036575L;
+	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "usuario_id")
 	private Long id;
+
+	@Column(nullable = false)
 	private String nome;
+
+	@Column(nullable = false, unique = true)
+	@Email(message = "Email inválido")
 	private String email;
+
+	@Column(nullable = false)
+	@Length(min = 5, max = 10, message = "Senha deve conter entre 5 e 10 carácteres")
 	private String senha;
+
+	@Column(nullable = false, unique = true)
+	@CPF(message = "CPF Inválido")
 	private String cpf;
+
 	private String rg;
+
 	private String cargo;
+
+	@JsonFormat(pattern = "dd/MM/yyyy")
+	private Date dataNascimento;
+
 	private PerfilUsuarioEnum perfil;
 
 	public Usuario() {
 
 	}
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
 	public Long getId() {
 		return id;
 	}
@@ -43,7 +63,6 @@ public class Usuario implements Serializable {
 		this.id = id;
 	}
 
-	@Column(nullable = false)
 	public String getNome() {
 		return nome;
 	}
@@ -52,8 +71,6 @@ public class Usuario implements Serializable {
 		this.nome = nome;
 	}
 
-	@Column(nullable = false, unique = true)
-	@Email(message = "Email inválido")
 	public String getEmail() {
 		return email;
 	}
@@ -62,8 +79,6 @@ public class Usuario implements Serializable {
 		this.email = email;
 	}
 
-	@Column(nullable = false)
-	@Length(min = 5, max = 10, message = "Senha deve conter entre 5 e 10 carácteres")
 	public String getSenha() {
 		return senha;
 	}
@@ -90,8 +105,6 @@ public class Usuario implements Serializable {
 		this.perfil = perfil;
 	}
 
-	@Column(nullable = false, unique = true)
-	@CPF(message = "CPF Inválido")
 	public String getCpf() {
 		return cpf;
 	}
@@ -106,6 +119,15 @@ public class Usuario implements Serializable {
 
 	public void setRg(String rg) {
 		this.rg = rg;
+
+	}
+
+	public Date getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(Date dataNascimento) {
+		this.dataNascimento = dataNascimento;
 	}
 
 	@Override
